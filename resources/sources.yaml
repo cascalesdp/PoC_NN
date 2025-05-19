@@ -1,0 +1,57 @@
+sources:
+  -  source_name: 'inventory_levels'
+     source_type: 'file'
+     data_format: 'csv'
+     options_json: '{"header":"true","inferSchema":"true"}'
+     connection: '/Volumes/landing/files/volumes/'
+     raw_target_path: '/Volumes/raw_zone/data/volume/'
+     hub_target_table: 'datahub.data.inventory_levels'
+     load_mode: 'incr'
+     incremental_column: 'product_key'
+     enabled: True
+     schema_json: '{"type":"struct",
+                  "fields":[
+                    {"name":"product_key","type":"integer","nullable":false,"metadata":{}},
+                    {"name":"warehouse","type":"string","nullable":true,"metadata":{}},
+                    {"name":"stock_date","type":"date","nullable":false,"metadata":{}},
+                    {"name":"quantity_on_hand","type":"integer","nullable":false,"metadata":{}}
+                    ]
+                  }'
+     data_owner: 'Owner'
+
+  -  source_name: 'dim_customers'
+     source_type: 'jdbc'
+     connection: '***'
+     table: 'dim_customers'
+     raw_target_path: '/Volumes/raw_zone/data/volume/'
+     hub_target_table: 'datahub.data.dim_customers'
+     load_mode: 'full'
+     enabled: TRUE
+
+  -  source_name: 'dim_products'
+     source_type: 'jdbc'
+     connection: '***'
+     table: 'dim_products'
+     raw_target_path: '/Volumes/raw_zone/data/volume/'
+     hub_target_table: 'datahub.data.dim_products'
+     load_mode: 'full'
+     enabled: TRUE
+
+  -  source_name: 'dim_date'
+     source_type: 'jdbc'
+     connection: '***'
+     table: 'dim_date'
+     raw_target_path: '/Volumes/raw_zone/data/volume/'
+     hub_target_table: 'datahub.data.dim_date'
+     load_mode: 'full'
+     enabled: TRUE
+
+  -  source_name: 'fact_sales'
+     source_type: 'jdbc'
+     connection: '***'
+     table: 'fact_sales'
+     raw_target_path: '/Volumes/raw_zone/data/volume/'
+     hub_target_table: 'datahub.data.fact_sales'
+     load_mode: 'incr'
+     incremental_column: 'sale_id'
+     enabled: TRUE
